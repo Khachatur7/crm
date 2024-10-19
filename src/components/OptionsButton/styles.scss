@@ -1,0 +1,98 @@
+svg,
+path {
+  transition: 1s ease;
+}
+
+.options {
+  width: 100px;
+  height: 35px;
+  position: relative;
+  .options_bttn {
+    width: 100%;
+    height: 100%;
+    background: #252f40;
+    color: #ffff;
+    border: 1px solid #252f40;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: 0.4s ease;
+    outline: none !important;
+
+    .icon {
+      width: 20px;
+      height: 20px;
+
+     
+    }
+  }
+
+  .options_bttn:hover {
+    border-color: #252f40;
+    color: #252f40;
+    background: #ffffff;
+
+    path {
+      fill: #252f40;
+    }
+  }
+
+  .option_bttn_active {
+    border-radius: 0px;
+  }
+
+  .options_list {
+    width: 120%;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: start;
+    justify-content: start;
+    border: 1px solid #252f40;
+    border-bottom: none;
+    position: absolute;
+    left: -10%;
+    top: 39px;
+    transition: .5s ease;
+    opacity: 0;
+    .options_list_item {
+      width: 100%;
+      height: 35px;
+      background: #ffffff;
+      border-bottom: 1px solid #252f40;
+      color: #252f40;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .options_list_item:hover {
+      background: #252f40;
+      color: #ffffff;
+      path{
+        stroke: #ffffff;
+      }
+    }
+  }
+  .options_list_active{
+   animation: active_list_active .6s ease forwards;
+  }
+
+  @keyframes active_list_active {
+    0%{
+       height: auto;
+    }
+    100%{
+        opacity: 1;
+       height: auto;
+    }
+  }
+
+
+}
