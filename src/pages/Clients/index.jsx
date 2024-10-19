@@ -8,15 +8,23 @@ import Client from "../../components/Client";
 import { appContext } from "../../context";
 import "../../assets/styles/index.scss";
 import "./styles.scss";
+import { FcPrevious } from "react-icons/fc";
 
 export default function Clients() {
   // const { setIsActiveMenu } = useContext(appContext);
   const [isAddFormVisible, setIsAddFormVisible] = useState(false);
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isPopupVisible, setIsPopupVisible] = useState(0);
   // useBlackout([isAddFormVisible, isPopupVisible]);
   const [clients, setClients] = useState(false);
+  const [popupCliend,setPopupCliend] = useState(0)
+  const [page, setPage] = useState(0);
   const limit = 3;
-  const [page,setPage] = useState(0);
+
+  const OpenPopup = (ind) => {
+	setIsPopupVisible(prev=>!prev)
+	setPopupCliend(ind)
+  };
+
   useEffect(() => {
     fetch("/api.json")
       .then((response) => {
@@ -26,7 +34,7 @@ export default function Clients() {
         return response.json();
       })
       .then((data) => {
-        setClients(data.data.Clients.slice(page * limit, (page *limit) + limit));
+        setClients(data.data.Clients.slice(page * limit, page * limit + limit));
       })
       .catch((error) => {
         console.log(error);
@@ -53,19 +61,21 @@ export default function Clients() {
               <span className="clients__table-header">День рождения</span>
             </div>
             {clients &&
-              clients.map((client) => {
+              clients.map((client, ind) => {
                 return (
                   <Client
                     key={client.clientid}
-                    checkMore={() => setIsPopupVisible((prev) => !prev)}
+                    checkMore={()=>OpenPopup(ind)}
                     src="client-1.png"
                     name={client.name.toString()}
                     phone={client.phone.toString()}
                     visits={client.visits.toString()}
                     payed={client.Info.Stats[0].sum.toString()}
-                    averageCheck="0₽"
+                    averageCheck={
+                      client.Info.Stats[0].AverageCheck.toString() + "₽"
+                    }
                     lastVisit={client.lastvisit.toString()}
-                    date={client.dateCreated.toString()}
+                    date={client.dateofbirth.toString()}
                   />
                 );
               })}
@@ -77,9 +87,24 @@ export default function Clients() {
               <use xlinkHref="/src/assets/icons/Clients_Sprite.svg#icon-clients-arrow-left" />
             </svg>
           </button>
-          <button className="clients__pagination-button active" onClick={()=>setPage(0)}>1</button>
-          <button className="clients__pagination-button"onClick={()=>setPage(1)}>2</button>
-          <button className="clients__pagination-button"onClick={()=>setPage(2)}>3</button>
+          <button
+            className="clients__pagination-button active"
+            onClick={() => setPage(0)}
+          >
+            1
+          </button>
+          <button
+            className="clients__pagination-button"
+            onClick={() => setPage(1)}
+          >
+            2
+          </button>
+          <button
+            className="clients__pagination-button"
+            onClick={() => setPage(2)}
+          >
+            3
+          </button>
           <button className="clients__pagination-arrow right">
             <svg className="clients__pagination-icon" height="17" width="17">
               <use xlinkHref="/src/assets/icons/Clients_Sprite.svg#icon-clients-arrow-right" />
@@ -104,6 +129,7 @@ export default function Clients() {
       <ClientsPopup
         isVisible={isPopupVisible}
         setIsVisible={setIsPopupVisible}
+		client={clients[popupCliend]}
       />
     </>
   );
