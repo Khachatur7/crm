@@ -19,12 +19,11 @@ export default function OptionsButton() {
     }
   }, [bttnOpen]);
 
+
+
   return (
     <div className="options">
-      <button
-        className={`options_bttn`}
-        onClick={() => setBttOpen(!bttnOpen)}
-      >
+      <button className={`options_bttn`} onClick={() => setBttOpen(!bttnOpen)}>
         <span>Опции</span>
         <div className="icon">
           <svg
